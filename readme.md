@@ -23,7 +23,6 @@ There is also a navbar and a container mixin which center the elements.
         fonts:  $primary-font: 'Roboto', sans-serif
                 $secondary-font: 'Raleway', sans-serif
 
-
 media queries:  $laptopL: 1440px
                 $laptop: 1024px
                 $tablet: 768px
