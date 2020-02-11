@@ -1,7 +1,10 @@
 // colors
 
-$primary: #5271ff
-$secondary: #38b6ff
+$primary: #48466d
+$secondary: #46cdcf
+$terciary: #3d84a8
+
+$almostWhite: #fcfcfc
 
 $purple: #8c52ff
 $blue: #5271ff
@@ -30,22 +33,217 @@ $mobileL: 425px
 $mobileM: 375px
 $mobileS: 320px
 
-
+// other..
+$shadow: 0px 2px 4px rgba(0, 0, 0, 0.3), 0px 0px 4px 4px rgba(0, 0, 0, 0.1)
+$shadow1: 0px 2px 4px rgba(0, 0, 0, 0.3), 0px 0px 4px 4px rgba(0, 0, 0, 0.1)
+$shadow2: 0px 1px 3px 1px rgba(0, 0, 0, 0.16)
+$shadow3: 2px 2px 3px 3px rgba(0, 0, 0, 0.3)
 
 // mixins
+@mixin transition($attribute: all, $duration: 170ms, $ease: ease-in-out)
+    transition: $duration $attribute $ease
+    will-change: $attribute
 
-@mixin navbar
-    width: 100vw
-    height: 60px
+// Positioning
+@mixin default-body
+    margin: 0
+    padding: 0
+    width: 100%
+    height: 100%
+    min-height: 100vh
+    color: #333
+    font-family: $primary-font
+    background: $almostWhite
+
+@mixin flex-center($direction: column)
     display: flex
     align-items: center
+    justify-content: center
+    flex-direction: $direction
 
-
-@mixin container
+@mixin flex-center-h
     display: flex
     justify-content: center
+
+@mixin flex-center-v
+    display: flex
     align-items: center
-    width: 100vw
-    background: center/cover no-repeat
+
+// Components
+@mixin alert($bg: lighten($red, 5%), $c: $almostWhite)
+    padding: 12px
+    background: $bg
+    color: $c
+    border-radius: 4px
+    box-shadow: $shadow2
+
+@mixin card($bg: $almostWhite, $c: $primary, $width: calc(240px + 5vw))
+    width: $width
+    padding: calc(12px + 0.1%) calc( 12px + 0.5% )
+    border-radius: 4px
+    box-shadow: $shadow2
 
 
+@mixin btn($bg: $primary, $c: $almostWhite)
+    min-width: 70px
+    min-height: 35px
+    padding: calc(12px + 0.1%) calc( 24px + 0.5% )
+    background: lighten($bg, 5%)
+    border: none
+    border-radius: 40px
+    box-shadow: $shadow1
+    cursor: pointer
+    color: $c
+    
+    @include transition(background)
+
+    &:hover, &:focus
+        background: $bg
+    
+@mixin btn-group($bg: $primary, $c: $almostWhite)
+    border-radius: 40px
+    box-shadow: $shadow1
+    overflow: hidden
+    @include flex-center(row)
+
+    button, input
+        margin: 0
+        padding: calc(12px + 0.1%) calc( 28px + 0.5% )
+        background: lighten($bg, 5%)
+        cursor: pointer
+        border: none
+        color: $c
+        @include transition(background)
+
+        &:hover, &:focus
+            background: $bg
+
+@mixin checkbox($bg: $primary)
+    position: relative
+    padding-left: 35px
+    margin-bottom: 12px
+    cursor: pointer
+    font-size: 2rem
+    user-select: none
+    
+    &:hover
+        .checkmark
+            background-color: $bg
+
+            &::after
+                transform: scale(1)
+            
+    .checkbox-input
+        position: absolute
+        opacity: 0
+        cursor: pointer
+        height: 0
+        width: 0
+
+        &:checked ~ .checkmark
+            background-color: $bg
+
+            &::after
+                transform: scale(1)
+
+    .checkmark
+        position: absolute
+        top: 0
+        left: 0
+        height: 26px
+        width: 26px
+        background-color: #eee
+        border: 3px solid $bg
+        border-radius: 50%
+        box-shadow: $shadow
+        @include transition(background-color, 120ms)
+
+        &::after
+            content: ""
+            position: absolute
+            left: 2px;
+            top: 2px;
+            width: 16px;
+            height: 16px;
+            background-color: #eee
+            border-radius: 50%
+            transform: scale(0)
+            @include transition(transform)
+
+@mixin drop($bg: $primary, $c: $almostWhite)
+    position: relative
+    display: inline-block
+
+    &:hover, &:focus
+        .drop-content
+            display: block
+
+    .drop-btn
+        border-radius: 10px
+        @include btn
+            
+            
+    .drop-content
+        margin: 0
+        padding: 0
+        left: 5px
+        display: none
+        position: absolute
+        z-index: 1
+        box-shadow: $shadow1
+        border-radius: 10px
+        overflow: hidden
+
+        & > *
+            margin: 0
+            padding: 6px 30px
+            display: block
+            text-decoration: none
+            font-size: 90%
+            background: $bg
+            color: $c
+            opacity: 0.94
+
+            @include transition(opacity)
+            
+            &:hover, &:focus
+                opacity: 1
+
+@mixin form-group()
+    label
+        position: relative
+        display: block
+        left: 17px
+        top: -50px
+        color: #666
+        opacity: 0
+        user-select: none
+        z-index: -1
+        @include transition(opacity)
+        @include transition(top)
+
+        &:hover
+            cursor: text
+
+    input
+        padding: 1rem
+        background: none
+        border: none
+        border-bottom: 2px solid #ccc
+        font-size: 1.2rem
+        color: #555
+        @include transition(border-bottom)
+
+        &::placeholder
+            transition: 200ms all ease
+
+        &:focus
+            border-bottom: 2px solid $primary
+
+            &::placeholder
+                color: transparent
+                transform: translateY(-20px)
+
+    input:focus + label, input:valid + label
+        opacity: 1
+        top: -80px        

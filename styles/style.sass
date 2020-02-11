@@ -1,12 +1,42 @@
 @import './variables'
 
-*
-    font-family: $primary-font
-    font-weight: 400
+html
+    box-sizing: border-box   
 
+*, *:before, *:after
+    box-sizing: inherit
+    font-weight: 400
+    text-decoration: none
+    list-style: none
+    outline: none
 
 body
-    margin: 0
-    padding: 0
-    box-sizing: border-box
-    text-decoration: none
+    @include default-body
+    @include flex-center
+
+    *
+        margin: 5px
+
+    .container
+
+    .alert
+        @include alert
+
+    .btn
+        @include btn
+
+    .btn-group
+        @include btn-group
+
+    .card
+        @include card
+
+    .checkbox
+        @include checkbox
+
+    .drop
+        @include drop
+        
+    .form-group
+        @include form-group
+    
